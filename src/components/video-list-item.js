@@ -2,9 +2,11 @@ import React from 'react';
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 
-const VideoListItem = ({ movie }) => {
+const VideoListItem = (props) => {
+    const { movie } = props;
+
     return (
-        <li className="list-group-item">
+        <li className="list-group-item" onClick={handleOnCLick}>
             <div className="media">
                 <div className="media-left">
                     <img className="media-object img-rounded" height="100px" width="100px" src={`${IMAGE_BASE_URL}${movie.poster_path}`} />
@@ -15,7 +17,12 @@ const VideoListItem = ({ movie }) => {
                 </div>
             </div>
         </li>
+
     )
+    function handleOnCLick() {
+        props.callback(movie);
+
+    }
 }
 
 export default VideoListItem;
