@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { runInThisContext } from 'vm';
 
 class SearchBar extends Component {
     constructor(props) {
@@ -8,14 +9,22 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="row">
-                <div className="col-md-8">
-                    <input type="text" className="form-control input-lg"onChange={this.handleChange.bind(this)} placeholder={this.state.placeHolder} />
+                <div className="col-ld-8 input-group">
+                    <input onKeyUp={this.handleChange.bind(this)} type="text" className="form-control input-lg" onChange={this.handleChange.bind(this)} placeholder={this.state.placeHolder} />
+                    <span className="input-group-btn">
+                        <button className="btn btn-secondary" onClick={this.handleOnClick.bind(this)}>Go</button>
+                    </span>
+
                 </div>
             </div>
         )
     }
     handleChange(event) {
-        this.setState({ serchText: event.target.value });
+        this.setState({ searchText: event.target.value });
+    }
+    handleOnClick(event) {
+        this.props.callback(this.state.searchText);
+
     }
 }
 export default SearchBar;
