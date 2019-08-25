@@ -4,7 +4,12 @@ import { runInThisContext } from 'vm';
 class SearchBar extends Component {
     constructor(props) {
         super(props);
-        this.state = { sarchText: "", placeHolder: "Tapez votre film..." }
+        this.state = {
+            sarchText: "",
+            placeHolder: "Tapez votre film...",
+            intervalBeforeRequest: 1000,
+            lockRequest: false
+        }
     };
     render() {
         return (
@@ -21,10 +26,17 @@ class SearchBar extends Component {
     }
     handleChange(event) {
         this.setState({ searchText: event.target.value });
+        if(!this.state.lockRequest){
+            this.setState({lockRequest:true})
+            setTimeout(function(){this.search()}.bind(this),this.state.intervalBeforeRequest)
+        }
     }
-    handleOnClick(event) {
+    handleOnClick() {
+        this.search();
+    }
+    search(){
         this.props.callback(this.state.searchText);
-
+        this.setState({lockRequest:false})
     }
 }
 export default SearchBar;
